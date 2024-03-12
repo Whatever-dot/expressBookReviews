@@ -44,10 +44,16 @@ const promise1 = new Promise((resolve, reject) => {
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
-    const isbn = req.params.isbn;
-    res.send(books[isbn])
- });
+const promise2 = new Promise((resolve, reject) => {
+    try {
+        public_users.get('/isbn/:isbn',function (req, res) {
+            const isbn = req.params.isbn;
+            resolve(res.send(books[isbn]));
+        });
+    } catch (err) {
+        reject(err)
+    }
+});
 
 // Get book details based on author
 const connectToURL = (url)=>{
